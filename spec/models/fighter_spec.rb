@@ -3,12 +3,12 @@ require 'rails_helper'
 RSpec.describe Fighter, :type => :model do
   it { should respond_to :name }
   it { should respond_to :powers }
-  it "shouldn't save withouth name" do
-    f = Fighter.new
-    f.save
-    f.errors.full_messages.first.should_not be nil
-    f.name = "Iori"
-    f.save
-    f.errors.full_messages.first.should be nil
+  context "#Validation" do
+    subject { FactoryGirl.build :fighter }
+    it { expect(subject).to be_valid }
+    it "should save the fighter" do
+      subject.name = ""
+      expect(subject).to_not be_valid
+    end
   end
 end
